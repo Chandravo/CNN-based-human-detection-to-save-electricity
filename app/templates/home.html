@@ -33,77 +33,90 @@
     </div>
 
     <div class="third_container">
-        <div class="classroom_number_1">
-            <h3 id="text_3">LP-110</h3>
-            <button type="" id="tick"> 
-                <img src="../static/images/tick.png" alt="" id="tick_img">
-            </button>
+        <div class="classroom_number_1" id="LP110">
+            <h3 id="LP101">LP-101</h3>
+            
             <button type="" id="camera"> 
                 <img src="../static/images/camera.png" alt="" id="camera_img">
             </button>
         </div>
 
-        <div class="classroom_number_2">
-            <h3 id="text_3">LP-109</h3>
-            <button type="" id="tick"> 
-                <img src="../static/images/tick.png" alt="" id="tick_img">
-            </button>
+        <div class="classroom_number_2" id="LP109">
+            <h3 id="LP109">LP-102</h3>
+            
             <button type="" id="camera"> 
                 <img src="../static/images/camera.png" alt="" id="camera_img">
             </button>
         </div>
             
-        <div class="classroom_number_3">
-            <h3 id="text_3">LP-108</h3>
-            <button type="" id="tick"> 
-                <img src="../static/images/tick.png" alt="" id="tick_img">
-            </button>
+        <div class="classroom_number_3" id="LP108">
+            <h3 id="LP108">LP-103</h3>
+            
             <button type="" id="camera"> 
                 <img src="../static/images/camera.png" alt="" id="camera_img">
             </button>
         </div>
 
-        <div class="classroom_number_4">
-            <h3 id="text_3">LP-107</h3>
-            <button type="" id="tick"> 
-                <img src="../static/images/tick.png" alt="" id="tick_img">
-            </button>
+        <div class="classroom_number_4" id="LP107">
+            <h3 id="LP107">LP-104</h3>
+            
             <button type="" id="camera"> 
                 <img src="../static/images/camera.png" alt="" id="camera_img">
             </button>
         </div>
 
-        <div class="classroom_number_5">
-            <h3 id="text_3">LP-106</h3>
-            <button type="" id="tick"> 
-                <img src="../static/images/tick.png" alt="" id="tick_img">
-            </button>
+        <div class="classroom_number_5" id="LP103">
+            <h3 id="LP103">LP-105</h3>
+           
             <button type="" id="camera"> 
                 <img src="../static/images/camera.png" alt="" id="camera_img">
             </button>
         </div>
 
-        <div class="classroom_number_6">
-            <h3 id="text_3">LP-105</h3>
-            <button type="" id="tick"> 
-                <img src="../static/images/tick.png" alt="" id="tick_img">
-            </button>
+        <div class="classroom_number_6" id="LP105">
+            <h3 id="LP105">LP-106</h3>
+            
             <button type="" id="camera"> 
                 <img src="../static/images/camera.png" alt="" id="camera_img">
             </button>
         </div>
 
-        <div class="classroom_number_7">
-            <h3 id="text_3">LP-104</h3>
-            <button type="" id="tick"> 
-                <img src="../static/images/tick.png" alt="" id="tick_img">
-            </button>
+        <div class="classroom_number_7" id="LP104">
+            <h3 id="LP104">LP-107</h3>
+            
             <button type="" id="camera"> 
                 <img src="../static/images/camera.png" alt="" id="camera_img">
             </button>
         </div>
         
+        
     </div>
-    
+    <script>
+        function changeColor(roomid) {
+            const elem = document.getElementById(roomid);
+            elem.style.color = 'red';
+          }
+        fetch('https://run.mocky.io/v3/0bced2f2-11a3-422d-916f-1d3c19c2c40e').then(function (response) {
+            // The API call was successful!
+            if (response.ok) {
+                return response.json();
+            } else {
+                return Promise.reject(response);
+            }
+        }).then(function (data) {
+            // This is the JSON from our response
+            console.log(data);
+            for (var i=0;i<data.room.length;i++){
+                if(data.status[i]==true){
+                    console.log(data.room[i])
+                    var s=data.room[i].toString()
+                    changeColor(s)
+                }
+            }
+        }).catch(function (err) {
+            // There was an error
+            console.warn('Something went wrong.', err);
+        });
+    </script>
 </body>
 </html>
