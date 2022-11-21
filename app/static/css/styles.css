@@ -121,7 +121,13 @@ a{
     height: 30px;
     width: 40px;
     border: none;
+    margin:0px;
     background-color: #ffcece;
+    padding: 0px;
+}
+button{
+    background-color: #ffcece;
+    border-width: 0px;
 }
 #tick_img{
     height: 30px;
