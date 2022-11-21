@@ -18,6 +18,8 @@ import wget
 
 
 def login(request):
+    if request.user.is_authenticated:
+        return redirect("/")
     if request.method=="POST":
         print("here")
         email=request.POST['email']
@@ -25,7 +27,8 @@ def login(request):
         user=auth.authenticate(email=email, password=password)
         if user is not None:
             auth.login(request, user)
-            return render(request,'home.html',{'email':email})
+            # return render(request,'home2.html',{'email':email})
+            return redirect('/')
         else:
             print("no")
             messages.add_message(request, messages.ERROR, "Wrong username or password!")
@@ -34,6 +37,12 @@ def login(request):
         return render(request,'login.html')  
     # return render(request, 'login.html')
 
+@login_required(login_url='/login')
+def logout(request):
+    if request.user.is_anonymous:
+        return redirect('/login')
+    auth.logout(request)
+    return redirect('/login')
 
 @login_required(login_url='/login')
 def home(request):
@@ -75,6 +84,7 @@ class check_status(APIView):
             
         return Response(data, status=status.HTTP_200_OK)    
     
+
 
 def gen(url,img):
     ctime=0
@@ -143,3 +153,4 @@ def light(url,img):
         return True
     else:
         return False
+    
