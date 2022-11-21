@@ -12,6 +12,12 @@
         h3{
             color:red;
         }
+        h1{
+            font-family: 'Kanit', sans-serif ;;
+        }
+        .txt{
+            font-family: 'Kanit', sans-serif;
+        }
     </style>
 </head>
 <body>
@@ -24,21 +30,21 @@
             <h1>Login</h1>
             </center>
             <center>
-            <h4>Sign in to continue</h4>
+            <h4 class="txt">Sign in to continue</h4>
             </center>
             <hr>
         <div class="myform">
             <form action="{% url 'login' %}" method="POST">
                 {% csrf_token %}
-                <label for="email">Please enter Email</label>
+                <label for="email" class="txt">Please enter Email</label>
                 <br>
                 <input type="email" id="email" name="email" placeholder="email">
                 <br>
-                <label for="lname">Please enter Password</label>
+                <label for="lname" class="txt">Please enter Password</label>
                 <br>
                 <input type="password" id="password" name="password" placeholder="password">
                 <br>
-                <a href="forgot.html">Forgot Password?</a>
+                <a href="forgot.html" class="txt">Forgot Password?</a>
                 <center>
                 {% for message in messages %}
                     <h3>{{message}} </h3>
