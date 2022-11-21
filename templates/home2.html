@@ -5,11 +5,46 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>mainpage</title>
-    <link rel="stylesheet" href="../static/css/styles.css">
+    <link rel="stylesheet" href="../static/css/style2.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@200;300&family=Oswald&display=swap" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <style>
+        .classroom_number_2{
+            margin-top: 25px;
+            width: 800px;
+            margin-right: 100px;
+            margin-left: 200px;
+            background-color: #ffcece;
+            height: 60px;
+            border-radius: 30px;
+            display: flex;
+            justify-content: space-around;
+            border: solid;
+            border-color: #f1a4a6;
+            border-width: 1.5px;
+        }
+        .classroom_number_1{
+            display:none;
+            margin-top: -350px;
+            width: 800px;
+            margin-right: 100px;
+            margin-left: 200px;
+            background-color: #ffcece;
+            height: 60px;
+            border-radius: 30px;
+            display: flex;
+            justify-content: space-around;
+            border: solid;
+            border-color: #f1a4a6;
+            border-width: 1.5px;
+            
+        }
+        h3{
+            font-family: 'Kanit', sans-serif;
+        }
+    </style>
 </head>
 <body>
     <div class="navbar">
@@ -28,60 +63,24 @@
         </center>
     </div>
     <div class="third_container">
-        <div class="classroom_number_1" id="LP101">
-            <h3 id="LP101">LP-101</h3>
+        <div class="classroom_number_1" id="head">
+            <h3 id="head" class="heading" font-family:'Kanit', sans-serif ;><b>CLASS NAME</b></h3>
             
-            <button type="" id="camera"> 
-                <img src="../static/images/camera.png" alt="" id="camera_img">
+            <button type="" id="camera"> <h3 id="head" class="heading"><b>CHECK LIVE CAM</b></h3>
+                
             </button>
         </div>
+        {% for room in data %}
 
-        <div class="classroom_number_2" id="LP102">
-            <h3 id="LP109">LP-102</h3>
-            <button type="" id="camera"> 
-                <img src="../static/images/camera.png" alt="" id="camera_img">
-            </button>
-        </div>
-            
-        <div class="classroom_number_3" id="LP103">
-            <h3 id="LP108">LP-103</h3>
+        <div class="classroom_number_2" id="roomdiv">
+            <h3 id="{{ room.name }}">{{room.name}}</h3>
             
             <button type="" id="camera"> 
-                <img src="../static/images/camera.png" alt="" id="camera_img">
+                <a href={{room.cam_url}}><img src="../static/images/camera.png" alt="" id="camera_img"></a>
             </button>
-        </div>
-
-        <div class="classroom_number_4" id="LP104">
-            <h3 id="LP107">LP-104</h3>
-            
-            <button type="" id="camera"> 
-                <img src="../static/images/camera.png" alt="" id="camera_img">
-            </button>
-        </div>
-
-        <div class="classroom_number_5" id="LP105">
-            <h3 id="LP103">LP-105</h3>
-           
-            <button type="" id="camera"> 
-                <img src="../static/images/camera.png" alt="" id="camera_img">
-            </button>
-        </div>
-
-        <div class="classroom_number_6" id="LP106">
-            <h3 id="LP105">LP-106</h3>
-            
-            <button type="" id="camera"> 
-                <img src="../static/images/camera.png" alt="" id="camera_img">
-            </button>
-        </div>
-
-        <div class="classroom_number_7" id="LP107">
-            <h3 id="LP104">LP-107</h3>
-            
-            <button type="" id="camera"> 
-                <img src="../static/images/camera.png" alt="" id="camera_img">
-            </button>
-        </div>
+        </div>  
+        {% endfor %}
+        
         
         
     </div>

@@ -35,14 +35,21 @@ def login(request):
     # return render(request, 'login.html')
 
 
-# @login_required(login_url='/login')
+@login_required(login_url='/login')
 def home(request):
     # for i in room.objects.all():
-    data={}
-    for room in Room.objects.all():
-        data[room.name]=room.cam_url
+    # data={}
+    # for room in Room.objects.all():
+    #     data[room.name]=room.cam_url
+    data=Room.objects.all()
+    # for room in Room.objects.all():
+    #     d={}
+    #     d['name']=room.name
+    #     d['cam']=room.cam_url
+        # data.append(d)
+    # print(data)
         
-    return render(request, 'home.html', data)
+    return render(request, 'home2.html', {'data':data})
 
 
 @login_required(login_url='/login')
@@ -53,7 +60,10 @@ class check_status(APIView):
     def get(self, request):
         data={"room":[],"status":[]}
         for room in Room.objects.all():
-            if gen(room.cam_url):
+            cap=cv2.VideoCapture(room.cam_url)
+            success, img = cap.read()
+            cap.release()
+            if (not gen(room.cam_url,img)) and light(room.cam_url,img):
                 room.status=True
                 
             else:
@@ -66,10 +76,10 @@ class check_status(APIView):
         return Response(data, status=status.HTTP_200_OK)    
     
 
-def gen(url):
+def gen(url,img):
     ctime=0
     ptime=0
-    cap = cv2.VideoCapture(url)
+    # cap = cv2.VideoCapture(url)
     whT = 320
     confThreshold = 0.5
     nmsThreshold = 0.3
@@ -86,7 +96,7 @@ def gen(url):
     net.setPreferableBackend(cv2.dnn.DNN_BACKEND_OPENCV)
     net.setPreferableTarget(cv2.dnn.DNN_TARGET_CPU)
     
-    def findObjects(outputs,img):
+    def findObjects(outputs, img):
         hT,wT,cT = img.shape
         bbox = []
         classIds = []
@@ -104,19 +114,32 @@ def gen(url):
                     # print("person detected")
         return False
     
-    success, img = cap.read()
-
+    # success, img = cap.read()
     blob = cv2.dnn.blobFromImage(img,1/255,(whT,whT),[0,0,0],1,crop=False)
     net.setInput(blob)
     layerNames = net.getLayerNames()
 
     outputNames = [layerNames[i-1] for i in net.getUnconnectedOutLayers()]
     outputs = net.forward(outputNames)
-    cap.release()
+    # cap.release()
 
     if (findObjects(outputs,img)):
         return True
     else:
         return False
     
-    
+def light(url,img):
+    def img_estim(img, thrshld):
+        is_light = np.mean(img) > thrshld
+        # print(np.mean(img))
+        return True if is_light else False
+
+
+    # cap=cv2.VideoCapture(url)
+
+    # success, img = cap.read()
+    # cap.release()
+    if (img_estim(img, 120)):
+        return True
+    else:
+        return False
