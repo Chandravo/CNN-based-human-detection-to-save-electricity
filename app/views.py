@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import User, Room
+from django.contrib.auth.models import auth
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -18,23 +19,30 @@ import wget
 
 def login(request):
     if request.method=="POST":
-        email=request.POST.get('email')
-        password=request.POST.get('password')
-        user=authenticate(email=email, password=password)
+        print("here")
+        email=request.POST['email']
+        password=request.POST['password']
+        user=auth.authenticate(email=email, password=password)
         if user is not None:
-            login(request, user)
+            auth.login(request, user)
             return render(request,'home.html',{'email':email})
         else:
+            print("no")
             messages.add_message(request, messages.ERROR, "Wrong username or password!")
-            return redirect("/login")
-        
-    return render(request, 'login.html')
+            return render(request,'login.html')
+    else:
+        return render(request,'login.html')  
+    # return render(request, 'login.html')
 
 
-@login_required(login_url='/login')
+# @login_required(login_url='/login')
 def home(request):
     # for i in room.objects.all():
-    return render(request, 'home.html')
+    data={}
+    for room in Room.objects.all():
+        data[room.name]=room.cam_url
+        
+    return render(request, 'home.html', data)
 
 
 @login_required(login_url='/login')
@@ -43,7 +51,7 @@ def liveCam(request, event, type):
 
 class check_status(APIView):
     def get(self, request):
-        data={}
+        data={"room":[],"status":[]}
         for room in Room.objects.all():
             if gen(room.cam_url):
                 room.status=True
@@ -51,7 +59,8 @@ class check_status(APIView):
             else:
                 room.status=False
             room.save()
-            data[room.name]=room.status
+            data["room"]+=[room.name]
+            data["status"]+=[room.status]
         print(data)
             
         return Response(data, status=status.HTTP_200_OK)    

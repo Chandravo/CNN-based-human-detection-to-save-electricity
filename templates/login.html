@@ -1,16 +1,22 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../static/css/login.css">
-    <title>Document</title>
+    <link rel="stylesheet" href="{%static 'css\login.css' %}">
+    <title>Login</title>
+    <style>
+        h3{
+            color:red;
+        }
+    </style>
 </head>
 <body>
     <div class="login-flex">
         <div class="left">
-            <img src="../static/images/ti2.jpg">
+            <img src="{%static 'images\ti2.jpg' %}">
         </div>
         <div class="right">
             <center>
@@ -21,7 +27,8 @@
             </center>
             <hr>
         <div class="myform">
-            <form >
+            <form action="{% url 'login' %}" method="POST">
+                {% csrf_token %}
                 <label for="email">Please enter Email</label>
                 <br>
                 <input type="email" id="email" name="email" placeholder="email">
@@ -32,6 +39,9 @@
                 <br>
                 <a href="forgot.html">Forgot Password?</a>
                 <center>
+                {% for message in messages %}
+                    <h3>{{message}} </h3>
+                {% endfor %}
                 <input type="submit" value="Login">
             </center>
               </form>
