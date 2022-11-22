@@ -38,11 +38,14 @@
                 {% csrf_token %}
                 <label for="lname">Please enter otp</label>
                 <br>
-                <input type="otp" id="otp" name="otp" placeholder="otp">
+                <input type="text" id="otp" name="otp" placeholder="otp">
                 <br>
                 <label for="lname">Enter Password</label>
                 <br>
                 <input type="password" id="password" name="password" placeholder="password">
+                <label for="lname">Re-Enter Password</label>
+                <br>
+                <input type="password" id="password1" name="password1" placeholder="password1">
                 <center>
                 <input type="submit" value="Reset Password">
             </center>
