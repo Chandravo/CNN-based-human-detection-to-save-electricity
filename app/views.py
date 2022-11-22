@@ -4,6 +4,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import User, Room
 from django.contrib.auth.models import auth
+from django.core.mail import send_mail
+from django.conf import settings
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -15,6 +17,8 @@ import numpy as np
 import time
 import os.path
 import wget
+
+import random,string
 
 
 def login(request):
@@ -64,6 +68,39 @@ def home(request):
 @login_required(login_url='/login')
 def liveCam(request, event, type):
     return render(request, 'app/liveCam.html', {'event': event, 'type': type})
+
+
+def otp(request):
+    if (request.method=="POST"):
+        email=request.POST['email']
+        user=User.objects.filter(email=email).first()
+        if (user is not None):
+            otp=''.join(random.choice(string.digits) for _ in range(7))
+            user.otp=otp
+            user.save()
+            sub="OTP for Password reset"
+            message="Your OTP to reset password is "+otp
+            from_email= settings.EMAIL_HOST_USER
+            send_mail(sub, message, from_email, [email], fail_silently=False)
+            return redirect('/reset_password')
+        else:
+            messages.add_message(request, messages.ERROR, "User does not exist!")
+            return render(request, 'otp.html')
+    return render(request, 'otp.html')
+
+def reset_password(request):
+    if (request.method=="POST"):
+        otp=request.POST['otp']
+        password=request.POST['password']
+        user=User.objects.filter(otp=otp).first()
+        if (user is not None):
+            user.set_password(password)
+            user.save()
+            return redirect('/login')
+        else:
+            messages.add_message(request, messages.ERROR, "OTP is incorrect!")
+            return render(request, 'reset_password.html')
+    return render(request, 'reset.html')
 
 class check_status(APIView):
     def get(self, request):

@@ -14,7 +14,7 @@ class User(AbstractBaseUser):
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
-    
+    otp = models.CharField(max_length=7, null=True, blank=True, default=None)
     
     def get_short_name(self):
         # The user is identified by their email
