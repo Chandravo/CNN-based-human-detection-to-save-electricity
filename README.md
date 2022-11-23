@@ -71,6 +71,7 @@ You can generate a new secret key [here](https://djecrety.ir)
 ```bash
  python manage.py makemigrations
 ```
+
 ```bash
  python manage.py migrate
 ```
@@ -100,6 +101,3 @@ Enter the room name and the video endpoint of the CCTV camera
 <img src="https://res.cloudinary.com/dgbobpgf4/image/upload/v1669120651/screenshots/addedroom.png">
 
 12) The site is ready now. Go to ```localhost:8000``` to start.
-
-
-
