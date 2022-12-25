@@ -63,7 +63,7 @@ Activate virtual environment
   pip install -r requirements.txt
 ```
 
-7) Add *Security Key* : Go to project's *settings.py* file and change the value of *SECURITY_KEY* variable to desired security key.
+7) Add *Secret Key* : Go to project's *settings.py* file and change the value of *SECRET_KEY* variable to desired secret key.
 You can generate a new secret key [here](https://djecrety.ir)
 
 8) Run Migrations
