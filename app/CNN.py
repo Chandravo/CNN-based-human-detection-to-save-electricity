@@ -12,7 +12,7 @@ else:
 
 ctime=0
 ptime=0
-cap = cv2.VideoCapture('http://192.168.137.68:4747/video')
+cap = cv2.VideoCapture('http://192.420.169.69:4747/video')
 # cap = cv2.VideoCapture(0)
 whT = 320
 confThreshold = 0.5

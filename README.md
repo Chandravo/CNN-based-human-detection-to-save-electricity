@@ -1,5 +1,5 @@
 # CNN-based-human-detection-to-save-electricity
-The goal of this project is to design a software intending to conserve electricity based on human detection. This system will use a simple CCTV camera to detect human presence in classrooms. In case the classroom is detected empty and the lights are on, the system will notify the administrator regarding the same via a live notification Furthermore is system will allow the administrator to have access to the real time status of all classrooms in the campus through a website. This system will make administration easier and prevent unnecessary electricity wastage.
+The goal of this project is to design a software intending to conserve electricity based on human detection. This system will use a simple CCTV camera to detect human presence and light presence in classrooms. In case the classroom is detected empty and the lights are on, the system will notify the administrator regarding the same via a live notification Furthermore this system will allow the administrator to have access to the real time status of all classrooms in the campus through a website. This system will make administration easier and prevent unnecessary electricity wastage.
 
 ## Pre-Requisites:
 1) A working CCTV camera. If a cctv camera is unavailable, apps like [Droid Cam](https://play.google.com/store/apps/details?id=com.dev47apps.droidcam&hl=en_IN&gl=US&pli=1) can be used to make the phone work as a cctv camera. The phone or the CCTV camera and the server should be connected to the same Local Network.
@@ -63,7 +63,7 @@ Activate virtual environment
   pip install -r requirements.txt
 ```
 
-7) Add *Security Key* : Go to project's *settings.py* file and change the value of *SECURITY_KEY* variable to desired security key.
+7) Add *Secret Key* : Go to project's *settings.py* file and change the value of *SECRET_KEY* variable to desired secret key.
 You can generate a new secret key [here](https://djecrety.ir)
 
 8) Run Migrations

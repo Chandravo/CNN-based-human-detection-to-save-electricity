@@ -9,7 +9,7 @@ def img_estim(img, thrshld):
     return 'light' if is_light else 'dark'
 
 
-cap=cv2.VideoCapture('http://192.168.137.68:4747/video')
+cap=cv2.VideoCapture('http://192.420.169.69:4747/video')
 
 success, img = cap.read()
 print(img_estim(img, 100))
