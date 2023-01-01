@@ -31,7 +31,6 @@ def login(request):
         user=auth.authenticate(email=email, password=password)
         if user is not None:
             auth.login(request, user)
-            # return render(request,'home2.html',{'email':email})
             return redirect('/')
         else:
             print("no")
@@ -50,17 +49,7 @@ def logout(request):
 
 @login_required(login_url='/login')
 def home(request):
-    # for i in room.objects.all():
-    # data={}
-    # for room in Room.objects.all():
-    #     data[room.name]=room.cam_url
     data=Room.objects.all()
-    # for room in Room.objects.all():
-    #     d={}
-    #     d['name']=room.name
-    #     d['cam']=room.cam_url
-        # data.append(d)
-    # print(data)
         
     return render(request, 'home2.html', {'data':data})
 
@@ -109,7 +98,7 @@ class check_status(APIView):
             cap=cv2.VideoCapture(room.cam_url)
             success, img = cap.read()
             cap.release()
-            if (not gen(room.cam_url,img)) and light(room.cam_url,img):
+            if (not gen(img)) and light(img):
                 room.status=True
                 
             else:
@@ -123,19 +112,11 @@ class check_status(APIView):
     
 
 
-def gen(url,img):
-    ctime=0
-    ptime=0
-    # cap = cv2.VideoCapture(url)
+def gen(img):
+
     whT = 320
     confThreshold = 0.5
-    nmsThreshold = 0.3
 
-    classesFile = r"C:\Users\chand\Software_Eng\project\config\app\YOLO\yolo\coco.names"
-    classNames = []
-
-    with open(classesFile,'rt') as f:
-        classNames = f.read().rstrip('\n').split('\n')
     modelConfiguration = r'C:\Users\chand\Software_Eng\project\config\app\YOLO\yolo\yolov3.cfg'
     modelWeights = r'C:\Users\chand\Software_Eng\project\config\app\YOLO\yolo\yolov3.weights'
 
@@ -144,48 +125,34 @@ def gen(url,img):
     net.setPreferableTarget(cv2.dnn.DNN_TARGET_CPU)
     
     def findObjects(outputs, img):
-        hT,wT,cT = img.shape
-        bbox = []
-        classIds = []
-        confs = []
 
         for output in outputs:
             for det in output:
                 scores = det[5:]
                 classId = np.argmax(scores)
-                # if classId==0:
-                #     print("hello")
                 confidence = scores[classId]
                 if confidence > confThreshold and classId==0:
                     return True
-                    # print("person detected")
         return False
     
-    # success, img = cap.read()
     blob = cv2.dnn.blobFromImage(img,1/255,(whT,whT),[0,0,0],1,crop=False)
     net.setInput(blob)
     layerNames = net.getLayerNames()
 
     outputNames = [layerNames[i-1] for i in net.getUnconnectedOutLayers()]
     outputs = net.forward(outputNames)
-    # cap.release()
+
 
     if (findObjects(outputs,img)):
         return True
     else:
         return False
     
-def light(url,img):
+def light(img):
     def img_estim(img, thrshld):
         is_light = np.mean(img) > thrshld
-        # print(np.mean(img))
         return True if is_light else False
 
-
-    # cap=cv2.VideoCapture(url)
-
-    # success, img = cap.read()
-    # cap.release()
     if (img_estim(img, 120)):
         return True
     else:

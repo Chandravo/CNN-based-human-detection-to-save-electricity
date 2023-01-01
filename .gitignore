@@ -44,8 +44,7 @@ database
 #virtual environment
 venv
 
-#static files root directory
-/static
+
 
 #media files root
 /media
