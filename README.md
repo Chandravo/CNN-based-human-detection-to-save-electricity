@@ -100,4 +100,4 @@ Enter the room name and the video endpoint of the CCTV camera
 
 <img src="https://res.cloudinary.com/dgbobpgf4/image/upload/v1669120651/screenshots/addedroom.png">
 
-12) The site is ready now. Go to ```localhost:8000``` to start.
+12) The site is ready now. Go to ```localhost:8000``` to start. 
